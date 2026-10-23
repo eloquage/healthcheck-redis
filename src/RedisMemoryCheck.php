@@ -55,10 +55,15 @@ class RedisMemoryCheck extends Check
                 ->shortSummary('Ping OK');
         }
 
-        $usedHuman = isset($memory['used_memory_human']) ? (string) $memory['used_memory_human'] : '';
-        $maxHuman = isset($memory['maxmemory_human']) ? (string) $memory['maxmemory_human'] : '';
-        $usedBytes = isset($memory['used_memory']) ? (int) $memory['used_memory'] : 0;
-        $maxBytes = isset($memory['maxmemory']) ? (int) $memory['maxmemory'] : 0;
+        $usedHumanValue = $memory['used_memory_human'] ?? null;
+        $maxHumanValue = $memory['maxmemory_human'] ?? null;
+        $usedBytesValue = $memory['used_memory'] ?? null;
+        $maxBytesValue = $memory['maxmemory'] ?? null;
+
+        $usedHuman = is_scalar($usedHumanValue) ? (string) $usedHumanValue : '';
+        $maxHuman = is_scalar($maxHumanValue) ? (string) $maxHumanValue : '';
+        $usedBytes = is_numeric($usedBytesValue) ? (int) $usedBytesValue : 0;
+        $maxBytes = is_numeric($maxBytesValue) ? (int) $maxBytesValue : 0;
 
         $usagePercent = null;
         if ($maxBytes > 0) {
