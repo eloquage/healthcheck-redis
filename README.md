@@ -1,6 +1,6 @@
 # Healthcheck redis for Laravel
 
-[![Tests](https://github.com/illuma-law/healthcheck-redis/actions/workflows/run-tests.yml/badge.svg)](https://github.com/illuma-law/healthcheck-redis/actions)
+[![Tests](https://github.com/eloquage/healthcheck-redis/actions/workflows/run-tests.yml/badge.svg)](https://github.com/eloquage/healthcheck-redis/actions)
 [![Packagist License](https://img.shields.io/badge/Licence-MIT-blue)](http://choosealicense.com/licenses/mit/)
 [![Latest Stable Version](https://img.shields.io/packagist/v/illuma-law/healthcheck-redis?label=Version)](https://packagist.org/packages/illuma-law/healthcheck-redis)
 
