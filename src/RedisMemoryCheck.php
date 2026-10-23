@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace IllumaLaw\HealthCheckRedis;
 
 use Illuminate\Support\Facades\Redis;
+use InvalidArgumentException;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 use Throwable;
@@ -13,9 +14,27 @@ class RedisMemoryCheck extends Check
 {
     protected string $connectionName = 'default';
 
+    protected ?int $warningThresholdPercent = null;
+
     public function connectionName(string $connectionName): self
     {
         $this->connectionName = $connectionName;
+
+        return $this;
+    }
+
+    public function connection(string $connectionName): self
+    {
+        return $this->connectionName($connectionName);
+    }
+
+    public function thresholdPercent(int $thresholdPercent): self
+    {
+        if ($thresholdPercent < 0 || $thresholdPercent > 100) {
+            throw new InvalidArgumentException('The Redis memory warning threshold must be between 0 and 100.');
+        }
+
+        $this->warningThresholdPercent = $thresholdPercent;
 
         return $this;
     }
@@ -66,8 +85,10 @@ class RedisMemoryCheck extends Check
         $maxBytes = is_numeric($maxBytesValue) ? (int) $maxBytesValue : 0;
 
         $usagePercent = null;
+        $usagePercentPrecise = null;
         if ($maxBytes > 0) {
-            $usagePercent = round(($usedBytes / $maxBytes) * 100, 1);
+            $usagePercentPrecise = ($usedBytes / $maxBytes) * 100;
+            $usagePercent = round($usagePercentPrecise, 1);
         }
 
         $meta = $baseMeta;
@@ -87,6 +108,28 @@ class RedisMemoryCheck extends Check
         $summary = $usedHuman !== '' ? $usedHuman : 'Ping OK';
         if ($usagePercent !== null) {
             $summary .= " ({$usagePercent}% of max)";
+        }
+
+        $configuredThreshold = config('healthcheck-redis.memory_warning_threshold_percent', 90);
+        $warningThreshold = $this->warningThresholdPercent
+            ?? (is_numeric($configuredThreshold) ? (int) $configuredThreshold : 90);
+        $warningThreshold = max(0, min(100, $warningThreshold));
+
+        if ($usagePercentPrecise !== null && $usagePercentPrecise >= 100) {
+            return Result::make()
+                ->meta($meta)
+                ->failed(trans('healthcheck-redis::messages.memory_limit_reached', ['percent' => $usagePercent]))
+                ->shortSummary($summary);
+        }
+
+        if ($usagePercentPrecise !== null && $usagePercentPrecise >= $warningThreshold) {
+            return Result::make()
+                ->meta($meta)
+                ->warning(trans('healthcheck-redis::messages.memory_warning', [
+                    'percent' => $usagePercent,
+                    'threshold' => $warningThreshold,
+                ]))
+                ->shortSummary($summary);
         }
 
         return Result::make()

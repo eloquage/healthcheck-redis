@@ -18,5 +18,6 @@ it('registers the config publish path under the correct tag', function () {
 });
 
 it('loads config with the correct default', function () {
-    expect(config('healthcheck-redis.required'))->toBeFalse();
+    expect(config('healthcheck-redis.required'))->toBeFalse()
+        ->and(config('healthcheck-redis.memory_warning_threshold_percent'))->toBe(90);
 });
