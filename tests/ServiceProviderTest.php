@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 it('registers the config publish path under the correct tag', function () {
     $provider = app()->getProvider(IllumaLaw\HealthCheckRedis\HealthcheckRedisServiceProvider::class);
-    $source = dirname((new \ReflectionClass($provider))->getFileName()).'/../config/healthcheck-redis.php';
+    $source = dirname((new ReflectionClass($provider))->getFileName()).'/../config/healthcheck-redis.php';
 
     expect(ServiceProvider::pathsToPublish($provider::class, 'healthcheck-redis-config'))
         ->toBe([$source => config_path('healthcheck-redis.php')]);
