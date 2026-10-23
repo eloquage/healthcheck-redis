@@ -11,7 +11,7 @@ Two checks for [Spatie Laravel Health](https://spatie.be/docs/laravel-health): o
 ## Requirements
 
 - PHP 8.3 or later
-- Laravel 11, 12, or 13
+- Laravel 12 or 13
 - `spatie/laravel-health` 1.39 or later
 
 ## Installation
