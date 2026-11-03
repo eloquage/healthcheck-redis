@@ -7,7 +7,7 @@ metadata:
 
 # Laravel package development
 
-Use this skill when changing this Composer package: `illuma-law/healthcheck-redis` — Focused redis health check for Spatie's Laravel Health package.
+Use this skill when changing this Composer package: `eloquage/healthcheck-redis` — Focused redis health check for Spatie's Laravel Health package.
 
 ## Package context
 

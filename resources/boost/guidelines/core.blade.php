@@ -1,4 +1,4 @@
-# illuma-law/healthcheck-redis
+# eloquage/healthcheck-redis
 
 Checks if the `vector` extension (redis) is enabled and active in PostgreSQL.
 

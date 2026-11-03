@@ -3,7 +3,7 @@
 ![Healthcheck Redis banner](art/banner.png)
 
 [![Tests](https://github.com/eloquage/healthcheck-redis/actions/workflows/run-tests.yml/badge.svg)](https://github.com/eloquage/healthcheck-redis/actions/workflows/run-tests.yml)
-[![Latest Stable Version](https://img.shields.io/packagist/v/illuma-law/healthcheck-redis?label=Version)](https://packagist.org/packages/illuma-law/healthcheck-redis)
+[![Latest Stable Version](https://img.shields.io/packagist/v/eloquage/healthcheck-redis?label=Version)](https://packagist.org/packages/eloquage/healthcheck-redis)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
 Two checks for [Spatie Laravel Health](https://spatie.be/docs/laravel-health): one reports whether the PHP Redis extension is installed, and one pings Redis and reports memory use against its configured `maxmemory` limit.
@@ -17,7 +17,7 @@ Two checks for [Spatie Laravel Health](https://spatie.be/docs/laravel-health): o
 ## Installation
 
 ```bash
-composer require illuma-law/healthcheck-redis
+composer require eloquage/healthcheck-redis
 ```
 
 The service provider is discovered automatically. Publish the configuration if you want to change the defaults:
